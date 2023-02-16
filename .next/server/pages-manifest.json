@@ -1,0 +1,9 @@
+{
+  "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
+  "/_document": "pages/_document.js",
+  "/devices": "pages/devices.js",
+  "/api/s3/backup/get/[id]": "pages/api/s3/backup/get/[id].js",
+  "/api/netbox/dcim/interfaces/[id]": "pages/api/netbox/dcim/interfaces/[id].js",
+  "/api/netbox/dcim/getDevices": "pages/api/netbox/dcim/getDevices.js"
+}
