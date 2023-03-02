@@ -10,7 +10,6 @@ import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
-import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
@@ -20,12 +19,8 @@ import { DataGrid } from "@mui/x-data-grid";
 //ICONS
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
-import SettingsInputHdmiIcon from "@mui/icons-material/SettingsInputHdmi";
-import DescriptionIcon from "@mui/icons-material/Description";
-import BackupIcon from "@mui/icons-material/Backup";
 //Components
-import DeviceTab from "../components/DeviceTabs";
-import InterfaceDatagrid from "../components/DataGrids/InterfaceDataGrid";
+import DeviceTab from "../components/Tabs/DeviceTabs";
 
 function Devices() {
   const [loading, setLoading] = useState(false);

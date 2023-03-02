@@ -5,15 +5,11 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import { useState, useEffect, cloneElement } from "react";
 import DialogTitle from "@mui/material/DialogTitle";
-import dynamic from "next/dynamic";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import SettingsInputHdmiIcon from "@mui/icons-material/SettingsInputHdmi";
 import DescriptionIcon from "@mui/icons-material/Description";
 import BackupIcon from "@mui/icons-material/Backup";
-import InterfaceDatagrid from "../components/DataGrids/InterfaceDataGrid";
-import BackupTab from "./Forms/DeviceBackUp";
-import { DataGrid } from "@mui/x-data-grid";
+import InterfaceDatagrid from "../DataGrids/InterfaceDataGrid";
+import BackupTab from "./DeviceBackUp";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

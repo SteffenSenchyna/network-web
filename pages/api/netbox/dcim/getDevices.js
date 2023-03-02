@@ -1,13 +1,21 @@
 export default async function handler(req, res) {
   const formData = req.body;
   const body = JSON.stringify(formData);
+  const env = process.env.ENV;
+  const token = process.env.NETBOXTOKEN;
+  var url = "";
+  if (env == "local") {
+    url = "0.0.0.0:8000";
+  } else {
+    url = "netbox-docker-netbox-1:8080";
+  }
   let request = {
-    url: `http://0.0.0.0:8000/api/dcim/devices/`,
+    url: `http://${url}/api/dcim/devices/`,
     method: "GET",
     body: body,
     headers: {
       "content-type": "application/json",
-      Authorization: "Token 0123456789abcdef0123456789abcdef01234567",
+      Authorization: token,
     },
   };
   const axios = require("axios");
@@ -19,7 +27,7 @@ export default async function handler(req, res) {
       }
     })
     .catch(function (response) {
-      console.log("Failed to scan network");
-      res.status(response.response.status).json(response.response.data);
+      console.log("Failed to grab devices from Netbox SQL database");
+      res.status(response.repsonse.status).json(response.response.data);
     });
 }

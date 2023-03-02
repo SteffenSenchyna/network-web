@@ -1,8 +1,6 @@
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 export default function InterfaceDatagrid({ rows, columns }) {
-  // const [rows, setRows] = useState([]);
-  // const [columns, setColumns] = useState([]);
   const [initialized, setInitialized] = useState(false);
   useEffect(() => {
     setInitialized(true);

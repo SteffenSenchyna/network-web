@@ -2,13 +2,20 @@ export default async function handler(req, res) {
   const formData = req.body;
   const id = req.query.id;
   const body = JSON.stringify(formData);
+  const env = process.env.ENV;
+  var url = "";
+  if (env == "local") {
+    url = "0.0.0.0:8000";
+  } else {
+    url = "netbox-docker-netbox-1:8080";
+  }
   let request = {
-    url: `http://0.0.0.0:8000/api/dcim/devices/`,
-    method: "GET",
+    url: `http://${url}/api/dcim/devices/${id}`,
+    method: "POST",
     body: body,
     headers: {
       "content-type": "application/json",
-      Authorization: "Token 0123456789abcdef0123456789abcdef01234567",
+      Authorization: process.env.NETBOXTOKEN,
     },
   };
   const axios = require("axios");
