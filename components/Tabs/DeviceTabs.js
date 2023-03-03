@@ -2,14 +2,13 @@ import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
-import { useState, useEffect, cloneElement } from "react";
+import { useState, useEffect } from "react";
 import DialogTitle from "@mui/material/DialogTitle";
 import SettingsInputHdmiIcon from "@mui/icons-material/SettingsInputHdmi";
 import DescriptionIcon from "@mui/icons-material/Description";
 import BackupIcon from "@mui/icons-material/Backup";
 import InterfaceDatagrid from "../DataGrids/InterfaceDataGrid";
-import BackupTab from "./DeviceBackUp";
+import BackupTab from "../Lists/DeviceBackUp";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -41,14 +40,10 @@ function a11yProps(index) {
 
 function DeviceTab(props) {
   const [value, setValue] = useState(0);
-  const [initialized, setInitialized] = useState(false);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  useEffect(() => {
-    setInitialized(true);
-  }, []);
   // console.log(props.data.rows[0]);
   return (
     <div>

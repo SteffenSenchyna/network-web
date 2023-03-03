@@ -50,7 +50,7 @@ function Devices() {
     const mainDev = [];
     const remoteDev = [];
     await axios
-      .get("/api/netbox/dcim/getDevices/")
+      .get("/api/netbox/dcim/devices/get")
       .then(function (response) {
         const deviceJSON = response.data["results"];
         deviceJSON.forEach((i) => {
@@ -70,11 +70,9 @@ function Devices() {
   const getInterfaces = async (id) => {
     setLoading[true];
     await axios
-      .get(`/api/netbox/dcim/interfaces/${id}`)
+      .get(`/api/netbox/dcim/interfaces/get/${id}`)
       .then(function (response) {
         const deviceJSON = response.data;
-        console.log(id);
-        console.log(deviceJSON);
         setInterfaces(deviceJSON);
         setLoading[false];
       })

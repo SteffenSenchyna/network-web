@@ -5,6 +5,11 @@ export default function InterfaceDatagrid({ rows, columns }) {
   useEffect(() => {
     setInitialized(true);
   }, []);
+  // const styles = {
+  //   fontSize: 16,
+  //   color: value > 0 ? "green" : "red",
+  //   fontWeight: value > 0 ? "bold" : "normal",
+  // };
   return (
     <DataGrid
       hideFooter

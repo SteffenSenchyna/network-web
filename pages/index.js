@@ -78,7 +78,7 @@ function Home() {
     const mainDev = [];
     const remoteDev = [];
     await axios
-      .get("/api/netbox/dcim/getDevices/")
+      .get("/api/netbox/dcim/devices/get")
       .then(function (response) {
         const deviceJSON = response.data["results"];
         deviceJSON.forEach((i) => {

@@ -53,22 +53,6 @@ function Scan() {
             <Typography sx={{ fontSize: 16 }} align="center">
               Scan
             </Typography>
-            <Typography variant="body2">
-              Morbi orci ipsum, tempus vitae sem placerat, feugiat cursus velit.
-              Nam ipsum lorem, dignissim at diam ut, pellentesque pharetra eros.
-              Duis tellus ligula, malesuada ut elementum sed, feugiat sodales
-              metus. Nunc sed pellentesque risus. Suspendisse tincidunt enim ac
-              nisl euismod, at molestie ante aliquet. Curabitur ultricies ut
-              arcu sed venenatis. In hac habitasse platea dictumst. Pellentesque
-              eros velit, ornare mollis sapien a, tincidunt faucibus tellus.
-              Nunc eu condimentum erat. Mauris suscipit enim metus, non volutpat
-              dui tristique placerat. In porttitor lacinia justo, sed pretium
-              lectus elementum non. Suspendisse leo tellus, ullamcorper nec
-              interdum in, vehicula ac lorem. Etiam eu pellentesque quam.
-              Aliquam urna urna, scelerisque eget luctus vitae, rhoncus eu
-              lorem. Phasellus dictum consectetur libero, at maximus purus
-              luctus eu.{" "}
-            </Typography>
             <input></input>
             <TextField
               label="Outlined"

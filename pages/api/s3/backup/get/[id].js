@@ -1,40 +1,34 @@
 import { S3Client, ListObjectsCommand } from "@aws-sdk/client-s3";
 
 export default async function handler(req, res) {
-  const AWS = require("aws-sdk");
-  const s3 = new AWS.S3({
-    accessKeyId: process.env.AWS_ACCESS_KEY,
-    secretAccessKey: process.env.AWS_SECRET_KEY,
+  const s3Client = new S3Client({
     region: process.env.AWS_DEFAULT_REGION,
+    credentials: {
+      accessKeyId: process.env.AWS_ACCESS_KEY,
+      secretAccessKey: process.env.AWS_SECRET_KEY,
+    },
   });
-  //Function for listing the buckets in S3
-  const listBuckets = async (s3) => {
-    s3.listBuckets(function (err, data) {
-      if (err) {
-        console.log("Error", err);
-      } else {
-        console.log("Success", data.Buckets);
-      }
-    });
-  };
-  //Function for listing the objects in a bucket in S3
-  const listObjectsInBucket = async (bucketName, folderName) => {
-    // Create the parameters for calling listObjects
-    var bucketParams = {
+
+  // Set up bucket name and optional prefix
+  const bucketName = process.env.AWS_S3_BUCKET_NAME;
+  const prefix = req.query.id + "/";
+
+  try {
+    // Use the AWS SDK v3 to list objects in the bucket
+    const command = new ListObjectsCommand({
       Bucket: bucketName,
-      Prefix: folderName,
-    };
-    // Call S3 to obtain a list of the objects in the bucket
-    s3.listObjects(bucketParams, function (err, data) {
-      if (err) {
-        console.log("Error", err);
-      } else {
-        console.log("Success", data);
-        return res.status(200);
-      }
+      Prefix: prefix,
     });
-  };
-  const id = req.query.id + "/";
-  await listObjectsInBucket("network-conf", id);
-  return res.status(200); // For unit tests.
+    const response = await s3Client.send(command);
+
+    // Extract the object keys and return as response
+    const objectKeys = response.Contents.map((object) => object.Key);
+    const keys = objectKeys
+      .slice(1)
+      .map((fileName) => fileName.replace(".txt", ""));
+    res.status(200).json(keys);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error listing objects in S3 bucket" });
+  }
 }
