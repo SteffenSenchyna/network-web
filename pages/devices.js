@@ -14,16 +14,18 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
-
 import { DataGrid } from "@mui/x-data-grid";
 //ICONS
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 //Components
-import DeviceTab from "../components/Tabs/DeviceTabs";
+import DeviceTabs from "../components/Tabs/DeviceTabs";
 
 function Devices() {
   const [loading, setLoading] = useState(false);
+  const [row, setRow] = useState([]);
+  const [site, setSite] = useState("");
+  const [style, setStyle] = useState("");
   const [open, setOpen] = useState(false);
   const [tabValue, setTabValue] = useState(0);
   const [selectedCell, setSelectedCell] = useState({});
@@ -31,19 +33,24 @@ function Devices() {
   const [remoteDevices, setRemoteDevices] = useState([]);
   const [deviceSelected, setDeviceSelected] = useState("");
   const [interfaces, setInterfaces] = useState([]);
-  const router = useRouter();
-
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
   };
-
   const handleCellClick = (event) => {
     getInterfaces(event.row.id);
     setSelectedCell({
       row: event.row,
     });
+
     setDeviceSelected(event.row.display);
+    setSite(event.row.site.slug);
+    setRow(event.row);
     setOpen(true);
+    if (event.row.site.slug == "primary-data-centre") {
+      setStyle("primary");
+    } else {
+      setStyle("secondary");
+    }
   };
 
   const getDevices = async () => {
@@ -67,8 +74,10 @@ function Devices() {
         console.log(error);
       });
   };
-  const getInterfaces = async (id) => {
+
+  const getInterfaces = async (id, site) => {
     setLoading[true];
+    console.log(site);
     await axios
       .get(`/api/netbox/dcim/interfaces/get/${id}`)
       .then(function (response) {
@@ -270,14 +279,18 @@ function Devices() {
         onClose={() => setOpen(false)}
       >
         <DialogContent>
-          <DeviceTab
+          <DeviceTabs
+            row={row}
+            site={site}
             device={deviceSelected}
             rows={interfaces}
             columns={columnsInterfaces}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpen(false)}>Close</Button>
+          <Button color={style} onClick={() => setOpen(false)}>
+            Close
+          </Button>
         </DialogActions>
       </Dialog>
       <Grid item xs={12} lg={12}>
@@ -329,6 +342,7 @@ function Devices() {
         <Box sx={{ height: 350, width: "100%" }}>
           <DataGrid
             hideFooter
+            onCellClick={handleCellClick}
             disableSelectionOnClick
             rows={remoteDevices}
             columns={columnsDevices}

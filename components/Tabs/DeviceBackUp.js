@@ -14,7 +14,15 @@ import download from "downloadjs";
 export default function BackupTab(props) {
   const [loading, setLoading] = useState(true);
   const [backups, setBackups] = useState([]);
+  const [error, setError] = useState(false);
+  // const [style, setBackups] = useState("");
+  var style = "";
   const device = props.device;
+  if (props.site == "primary-data-centre") {
+    style = "primary";
+  } else {
+    style = "secondary";
+  }
   const getBackUp = async (device) => {
     await axios
       .get(`/api/s3/backup/get/${device}`)
@@ -23,6 +31,8 @@ export default function BackupTab(props) {
         setLoading(false);
       })
       .catch((error) => {
+        setLoading(false);
+        setError(true);
         console.log(error);
       });
   };
@@ -44,8 +54,9 @@ export default function BackupTab(props) {
   return (
     <div>
       <DialogContent>
-        <Typography>Backups</Typography>
-        {loading && <CircularProgress />}
+        <Typography variant="h6">Backups</Typography>
+        {loading && <CircularProgress color={style} />}
+        {error && <Typography>No Backups Available</Typography>}
         <List
           sx={{ width: "100%", maxWidth: 400, bgcolor: "background.paper" }}
         >

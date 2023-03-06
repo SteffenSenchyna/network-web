@@ -1,32 +1,27 @@
 import { DataGrid } from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
-export default function InterfaceDatagrid({ rows, columns }) {
-  const [initialized, setInitialized] = useState(false);
-  useEffect(() => {
-    setInitialized(true);
-  }, []);
-  // const styles = {
-  //   fontSize: 16,
-  //   color: value > 0 ? "green" : "red",
-  //   fontWeight: value > 0 ? "bold" : "normal",
-  // };
+export default function InterfaceDatagrid(params) {
+  var style = "";
+  if (params.site == "primary-data-centre") {
+    style = "primary.main";
+  } else {
+    style = "secondary.main";
+  }
   return (
     <DataGrid
       hideFooter
       disableSelectionOnClick
-      rows={rows}
-      columns={columns}
+      rows={params.rows}
+      columns={params.columns}
       sx={{
         border: 1,
-        // borderColor: "rgba(255,255,255,0)",
         "& .MuiDataGrid-cell:hover": {
-          color: "primary.main",
+          color: style,
         },
         ".MuiDataGrid-menuIconButton": {
-          color: "primary.main",
+          color: style,
         },
         ".MuiDataGrid-sortIcon": {
-          color: "primary.main",
+          color: style,
         },
         ".MuiDataGrid-cell:focus": {
           outline: "none",

@@ -23,7 +23,6 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
-import { Man } from "@mui/icons-material";
 
 function Home() {
   const [loading, setLoading] = useState(true);
