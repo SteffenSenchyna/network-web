@@ -4,9 +4,11 @@ import DialogContent from "@mui/material/DialogContent";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import CommentIcon from "@mui/icons-material/Comment";
+import Grid from "@mui/material/Grid";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
 import IconButton from "@mui/material/IconButton";
-import Box from "@mui/material/Box";
+import Grow from "@mui/material/Grow";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
@@ -18,7 +20,7 @@ export default function BackupTab(props) {
   // const [style, setBackups] = useState("");
   var style = "";
   const device = props.device;
-  if (props.site == "primary-data-centre") {
+  if (props.site == "HMC Coporate Headquaters") {
     style = "primary";
   } else {
     style = "secondary";
@@ -54,26 +56,47 @@ export default function BackupTab(props) {
   return (
     <div>
       <DialogContent>
-        <Typography variant="h6">Backups</Typography>
-        {loading && <CircularProgress color={style} />}
-        {error && <Typography>No Backups Available</Typography>}
-        <List
-          sx={{ width: "100%", maxWidth: 400, bgcolor: "background.paper" }}
-        >
-          {backups.map((index) => (
-            <ListItem
-              key={index}
-              disableGutters
-              secondaryAction={
-                <IconButton onClick={() => pullBackUp(index)}>
-                  <CloudDownloadIcon />
-                </IconButton>
-              }
-            >
-              <ListItemText primary={index} />
-            </ListItem>
-          ))}
-        </List>
+        <Grow in={true} timeout={800} unmountOnExit>
+          <Grid container spacing={2}>
+            <Grid item xs={2}></Grid>
+            <Grid item xs={8}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6">Backups</Typography>
+                  {loading && (
+                    <>
+                      <Grid
+                        container
+                        justifyContent="center"
+                        alignItems="center"
+                      >
+                        <Grid item>
+                          <CircularProgress color={style} />
+                        </Grid>
+                      </Grid>
+                    </>
+                  )}
+                  {error && <Typography>No Backups Available</Typography>}
+                  <List>
+                    {backups.map((index) => (
+                      <ListItem
+                        key={index}
+                        disableGutters
+                        secondaryAction={
+                          <IconButton onClick={() => pullBackUp(index)}>
+                            <CloudDownloadIcon />
+                          </IconButton>
+                        }
+                      >
+                        <ListItemText primary={index} />
+                      </ListItem>
+                    ))}
+                  </List>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+        </Grow>
       </DialogContent>
     </div>
   );

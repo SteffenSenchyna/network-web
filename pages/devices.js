@@ -41,12 +41,11 @@ function Devices() {
     setSelectedCell({
       row: event.row,
     });
-
     setDeviceSelected(event.row.display);
-    setSite(event.row.site.slug);
+    setSite(event.row.site.display);
     setRow(event.row);
     setOpen(true);
-    if (event.row.site.slug == "primary-data-centre") {
+    if (event.row.site.slug == "MAIN") {
       setStyle("primary");
     } else {
       setStyle("secondary");
@@ -61,7 +60,7 @@ function Devices() {
       .then(function (response) {
         const deviceJSON = response.data["results"];
         deviceJSON.forEach((i) => {
-          if (i["site"]["slug"] == "primary-data-centre") {
+          if (i["site"]["slug"] == "MAIN") {
             mainDev.push(i);
           } else {
             remoteDev.push(i);
@@ -77,7 +76,6 @@ function Devices() {
 
   const getInterfaces = async (id, site) => {
     setLoading[true];
-    console.log(site);
     await axios
       .get(`/api/netbox/dcim/interfaces/get/${id}`)
       .then(function (response) {

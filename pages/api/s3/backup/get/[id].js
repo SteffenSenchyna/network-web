@@ -11,7 +11,6 @@ export default async function handler(req, res) {
   // Set up bucket name and optional prefix
   const bucketName = process.env.AWS_S3_BUCKET_NAME;
   const prefix = req.query.id + "/";
-
   try {
     // Use the AWS SDK v3 to list objects in the bucket
     const command = new ListObjectsCommand({

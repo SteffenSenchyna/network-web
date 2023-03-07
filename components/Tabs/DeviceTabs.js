@@ -44,7 +44,7 @@ function a11yProps(index) {
 function DeviceTabs(props) {
   const [value, setValue] = useState(0);
   var style = "";
-  if (props.site == "primary-data-centre") {
+  if (props.site == "HMC Coporate Headquaters") {
     style = "#03DAc5";
   } else {
     style = "#B388FC";

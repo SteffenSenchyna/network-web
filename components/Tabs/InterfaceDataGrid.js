@@ -1,7 +1,8 @@
 import { DataGrid } from "@mui/x-data-grid";
+import Grow from "@mui/material/Grow";
 export default function InterfaceDatagrid(params) {
   var style = "";
-  if (params.site == "primary-data-centre") {
+  if (params.site == "HMC Coporate Headquaters") {
     style = "primary.main";
   } else {
     style = "secondary.main";
