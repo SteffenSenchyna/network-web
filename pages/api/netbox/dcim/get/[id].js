@@ -1,19 +1,17 @@
-import { CompressOutlined } from "@mui/icons-material";
-
 export default async function handler(req, res) {
   const formData = req.body;
   const body = JSON.stringify(formData);
   const env = process.env.ENV;
   const token = process.env.NETBOXTOKEN;
-  var url = "";
-
+  const url = req.query.id + "/";
+  var urlAPI = "";
   if (env == "local") {
-    url = "0.0.0.0:8000";
+    urlAPI = "0.0.0.0:8000";
   } else {
-    url = "netbox-docker-netbox-1:8080";
+    urlAPI = "netbox-docker-netbox-1:8080";
   }
   let request = {
-    url: `http://${url}/api/dcim/sites/`,
+    url: `http://${urlAPI}/api/dcim/${url}/`,
     method: "GET",
     body: body,
     headers: {

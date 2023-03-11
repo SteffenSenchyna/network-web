@@ -27,15 +27,12 @@ function Devices() {
   const [site, setSite] = useState("");
   const [style, setStyle] = useState("");
   const [open, setOpen] = useState(false);
-  const [tabValue, setTabValue] = useState(0);
   const [selectedCell, setSelectedCell] = useState({});
   const [mainDevices, setMainDevices] = useState([]);
   const [remoteDevices, setRemoteDevices] = useState([]);
   const [deviceSelected, setDeviceSelected] = useState("");
   const [interfaces, setInterfaces] = useState([]);
-  const handleTabChange = (event, newValue) => {
-    setTabValue(newValue);
-  };
+  const router = useRouter();
   const handleCellClick = (event) => {
     getInterfaces(event.row.id);
     setSelectedCell({
@@ -45,7 +42,7 @@ function Devices() {
     setSite(event.row.site.display);
     setRow(event.row);
     setOpen(true);
-    if (event.row.site.slug == "MAIN") {
+    if (event.row.site.name == "HMC Coporate Headquaters") {
       setStyle("primary");
     } else {
       setStyle("secondary");
@@ -74,7 +71,7 @@ function Devices() {
       });
   };
 
-  const getInterfaces = async (id, site) => {
+  const getInterfaces = async (id) => {
     setLoading[true];
     await axios
       .get(`/api/netbox/dcim/interfaces/get/${id}`)
@@ -270,12 +267,7 @@ function Devices() {
           </CardContent>
         </Card>
       </Grid>
-      <Dialog
-        sx={{ "& .MuiDialog-paper": { width: "100%", minHeight: 730 } }}
-        maxWidth="lg"
-        open={open}
-        onClose={() => setOpen(false)}
-      >
+      <Dialog fullScreen open={open} onClose={() => setOpen(false)}>
         <DialogContent>
           <DeviceTabs
             row={row}

@@ -81,7 +81,7 @@ function Home() {
       .then(function (response) {
         const deviceJSON = response.data["results"];
         deviceJSON.forEach((i) => {
-          if (i["site"]["slug"] == "primary-data-centre") {
+          if (i["site"]["slug"] == "MAIN") {
             mainDev.push(i);
           } else {
             remoteDev.push(i);

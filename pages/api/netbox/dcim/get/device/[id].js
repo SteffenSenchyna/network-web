@@ -3,16 +3,16 @@ export default async function handler(req, res) {
   const body = JSON.stringify(formData);
   const env = process.env.ENV;
   const token = process.env.NETBOXTOKEN;
-  var url = "";
+  const url = req.query.id + "/";
+  var urlAPI = "";
   if (env == "local") {
-    url = "0.0.0.0:8000";
+    urlAPI = "0.0.0.0:8000";
   } else {
-    url = "netbox-docker-netbox-1:8080";
+    urlAPI = "netbox-docker-netbox-1:8080";
   }
   let request = {
-    url: `http://${url}/api/dcim/devices/`,
+    url: `http://${urlAPI}/api/dcim/devices/${url}`,
     method: "GET",
-    body: body,
     headers: {
       "content-type": "application/json",
       Authorization: token,
@@ -22,11 +22,12 @@ export default async function handler(req, res) {
   await axios(request)
     .then(function (response) {
       if (response.status == 200) {
-        res.status(200).json(response.data);
+        res.status(response.status).json(response.data);
       }
     })
     .catch(function (response) {
-      console.log("Failed to grab devices from Netbox SQL database");
-      res.status(response.repsonse.status).json(response.response.data);
+      console.log("Failed to grab sites from Netbox SQL database");
+      console.log(response.data);
+      res.status(response.status).json(response.data);
     });
 }

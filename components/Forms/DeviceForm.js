@@ -10,17 +10,8 @@ import Autocomplete from "@mui/material/Autocomplete";
 class DeviceForm extends Component {
   constructor(props) {
     super(props);
-    this.handleSaveClick.bind(this);
-    this.handleSiteFocus.bind(this);
+    console.log(props);
   }
-
-  handleSiteFocus = async () => {
-    await this.props.onSiteFocus();
-  };
-
-  handleSaveClick = () => {
-    this.props.handleSaveClick();
-  };
 
   render() {
     return (
@@ -29,7 +20,7 @@ class DeviceForm extends Component {
           <Grid container spacing={2}>
             <Grid item xs={2}></Grid>
             <Grid item xs={8}>
-              <Card sx={{ maxHeight: 460, overflow: "auto" }}>
+              <Card sx={{ overflow: "auto" }}>
                 <CardContent>
                   <Typography variant="h5" component="div" sx={{ mb: 1 }}>
                     Device
@@ -38,6 +29,7 @@ class DeviceForm extends Component {
                     <Grid item xs={2}></Grid>
                     <Grid item xs={8}>
                       <TextField
+                        color={this.props.state.style}
                         variant="filled"
                         label="Name"
                         fullWidth
@@ -47,12 +39,15 @@ class DeviceForm extends Component {
                     <Grid item xs={2}></Grid>
                     <Grid item xs={8}>
                       <Autocomplete
-                        options={this.props.state.siteOptions}
-                        onFocus={this.handleSiteFocus}
+                        defaultValue={this.props.state.deviceRole}
+                        loading={this.props.state.loading}
+                        options={this.props.state.deviceRoleOptions}
+                        onFocus={this.props.onFocus.deviceRole}
                         renderInput={(params) => (
                           <TextField
                             {...params}
-                            label="Site"
+                            color={this.props.state.style}
+                            label="Device Role"
                             variant="filled"
                           />
                         )}
@@ -62,8 +57,60 @@ class DeviceForm extends Component {
                     <Grid item xs={2}></Grid>
                     <Grid item xs={8}>
                       <TextField
+                        color={this.props.state.style}
                         variant="filled"
                         label="Description"
+                        fullWidth
+                      ></TextField>
+                    </Grid>
+                    <Grid item xs={2}></Grid>
+                  </Grid>
+                  <Typography variant="h5" component="div" sx={{ mb: 1 }}>
+                    Hardware
+                  </Typography>
+                  <Grid container spacing={2}>
+                    <Grid item xs={2}></Grid>
+                    <Grid item xs={8}>
+                      <Autocomplete
+                        defaultValue={this.props.state.deviceRole}
+                        loading={this.props.state.loading}
+                        options={this.props.state.deviceRoleOptions}
+                        onFocus={this.props.onFocus.deviceRole}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            color={this.props.state.style}
+                            label="Manufacturer"
+                            variant="filled"
+                          />
+                        )}
+                      />
+                    </Grid>
+                    <Grid item xs={2}></Grid>
+                    <Grid item xs={2}></Grid>
+                    <Grid item xs={8}>
+                      <Autocomplete
+                        defaultValue={this.props.state.deviceType}
+                        loading={this.props.state.loading}
+                        options={this.props.state.deviceTypeOptions}
+                        onFocus={this.props.onFocus.deviceType}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            color={this.props.state.style}
+                            label="Device Type"
+                            variant="filled"
+                          />
+                        )}
+                      />
+                    </Grid>
+                    <Grid item xs={2}></Grid>
+                    <Grid item xs={2}></Grid>
+                    <Grid item xs={8}>
+                      <TextField
+                        color={this.props.state.style}
+                        variant="filled"
+                        label="Serial Number"
                         fullWidth
                       ></TextField>
                     </Grid>
@@ -75,17 +122,26 @@ class DeviceForm extends Component {
                   <Grid container spacing={2}>
                     <Grid item xs={2}></Grid>
                     <Grid item xs={8}>
-                      <TextField
-                        required
-                        variant="filled"
-                        label="Site"
-                        fullWidth
-                      ></TextField>
+                      <Autocomplete
+                        defaultValue={this.props.state.site}
+                        loading={this.props.state.loading}
+                        options={this.props.state.siteOptions}
+                        onFocus={this.props.onFocus.site}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            color={this.props.state.style}
+                            label="Site"
+                            variant="filled"
+                          />
+                        )}
+                      />
                     </Grid>
                     <Grid item xs={2}></Grid>
                     <Grid item xs={2}></Grid>
                     <Grid item xs={8}>
                       <TextField
+                        color={this.props.state.style}
                         variant="filled"
                         label="Location"
                         fullWidth
@@ -95,6 +151,7 @@ class DeviceForm extends Component {
                     <Grid item xs={2}></Grid>
                     <Grid item xs={8}>
                       <TextField
+                        color={this.props.state.style}
                         variant="filled"
                         label="Rack"
                         fullWidth
@@ -104,6 +161,7 @@ class DeviceForm extends Component {
                     <Grid item xs={2}></Grid>
                     <Grid item xs={8}>
                       <TextField
+                        color={this.props.state.style}
                         variant="filled"
                         label="Device Type"
                         fullWidth
@@ -113,6 +171,7 @@ class DeviceForm extends Component {
                     <Grid item xs={2}></Grid>
                     <Grid item xs={8}>
                       <TextField
+                        color={this.props.state.style}
                         variant="filled"
                         label="Description"
                         fullWidth
@@ -122,7 +181,12 @@ class DeviceForm extends Component {
                   </Grid>
                 </CardContent>
                 <CardActions style={{ justifyContent: "flex-end" }}>
-                  <Button onClick={this.handleSaveClick}>Save</Button>
+                  <Button
+                    color={this.props.state.style}
+                    onClick={this.props.handleSaveClick}
+                  >
+                    Save
+                  </Button>
                 </CardActions>
               </Card>
             </Grid>

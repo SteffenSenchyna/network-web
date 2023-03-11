@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Component } from "react";
 import DialogTitle from "@mui/material/DialogTitle";
 import SettingsInputHdmiIcon from "@mui/icons-material/SettingsInputHdmi";
 import DescriptionIcon from "@mui/icons-material/Description";
@@ -18,9 +18,6 @@ function TabPanel(props) {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
-      sx={{
-        color: "red",
-      }}
       {...other}
     >
       {value === index && <div>{children}</div>}
@@ -52,7 +49,7 @@ function DeviceTabs(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  // console.log(props.data.rows[0]);
+
   return (
     <div>
       <Box
@@ -104,16 +101,8 @@ function DeviceTabs(props) {
       <TabPanel value={value} index={0} {...a11yProps(0)}>
         <InfoTab {...props} />
       </TabPanel>
-
-      <TabPanel
-        sx={{
-          color: "red",
-        }}
-        value={value}
-        index={1}
-        {...a11yProps(1)}
-      >
-        <Box sx={{ height: 500, width: "100%" }}>
+      <TabPanel value={value} index={1} {...a11yProps(1)}>
+        <Box sx={{ height: "70vh", width: "100%" }}>
           <InterfaceDatagrid {...props} />
         </Box>
       </TabPanel>
@@ -123,4 +112,102 @@ function DeviceTabs(props) {
     </div>
   );
 }
+
+// class DeviceTabs extends Component {
+//   constructor(props) {
+//     super(props);
+//     console.log(props);
+//     this.state = {
+//       value: 0,
+//       deviceDCIM: {},
+//     };
+//   }
+
+//   handleChange = (event, newValue) => {
+//     this.setState({ value: newValue });
+//   };
+
+//   componentDidMount() {
+//     this.setState({ deviceDCIM: this.props.deviceDCIM });
+//   }
+
+//   render() {
+//     const { style } = this.props;
+//     const { value, deviceDCIM } = this.state;
+
+//     return (
+//       <div>
+//         <Box
+//           sx={{
+//             borderBottom: 0.5,
+//             p: 0,
+//             borderColor: "rgb(143 143 143 / 60%)",
+//           }}
+//         >
+//           <Tabs
+//             value={value}
+//             onChange={this.handleChange}
+//             TabIndicatorProps={{
+//               style: {
+//                 backgroundColor: style,
+//               },
+//             }}
+//             variant="fullWidth"
+//           >
+//             <Tab
+//               sx={{
+//                 "&.Mui-selected": {
+//                   color: style,
+//                 },
+//               }}
+//               icon={<DescriptionIcon />}
+//               iconPosition="end"
+//               label="Device"
+//             />
+//             <Tab
+//               sx={{
+//                 "&.Mui-selected": {
+//                   color: style,
+//                 },
+//               }}
+//               icon={<SettingsInputHdmiIcon />}
+//               iconPosition="end"
+//               label="Interfaces"
+//             />
+//             <Tab
+//               sx={{
+//                 "&.Mui-selected": {
+//                   color: style,
+//                 },
+//               }}
+//               icon={<BackupIcon />}
+//               iconPosition="end"
+//               label="Backup"
+//             />
+//           </Tabs>
+//         </Box>
+//         <DialogTitle>{deviceDCIM.name}</DialogTitle>
+//         <TabPanel value={value} index={0} {...a11yProps(0)}>
+//           <InfoTab deviceDCIM={deviceDCIM} {...this.props} />
+//         </TabPanel>
+
+//         <TabPanel
+//           sx={{
+//             color: "red",
+//           }}
+//           value={value}
+//           index={1}
+//           {...a11yProps(1)}
+//         >
+//           <Box sx={{ height: 500, width: "100%" }}>
+//             <InterfaceDatagrid {...this.props} />
+//           </Box>
+//         </TabPanel>
+//         <TabPanel value={value} index={2} {...a11yProps(2)}>
+//           <BackupTab {...this.props} />
+//         </TabPanel>
+//       </div>
+//     );
+//   }
+// }
 export default DeviceTabs;
