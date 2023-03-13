@@ -146,7 +146,9 @@ function Home() {
       headerName: "Primary IP",
       width: 130,
       valueGetter: (params) => {
-        return params.row.primary_ip.display;
+        return params.row.primary_ip && params.row.primary_ip.display
+          ? `${params.row.primary_ip.display}`
+          : "-";
       },
     },
     {
@@ -154,7 +156,9 @@ function Home() {
       headerName: "Device Type",
       width: 160,
       valueGetter: (params) => {
-        return params.row.device_type.display;
+        return params.row.device_type && params.row.device_type.display
+          ? `${params.row.device_type.display}`
+          : "-";
       },
     },
     {

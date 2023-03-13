@@ -27,6 +27,6 @@ export default async function handler(req, res) {
     })
     .catch(function (response) {
       console.log("Failed to grab devices from Netbox SQL database");
-      res.status(response.repsonse.status).json(response.response.data);
+      res.status(response.status).json(response.data);
     });
 }

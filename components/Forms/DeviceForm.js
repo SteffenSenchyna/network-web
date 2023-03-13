@@ -29,6 +29,7 @@ class DeviceForm extends Component {
                     <Grid item xs={2}></Grid>
                     <Grid item xs={8}>
                       <TextField
+                        defaultValue={this.props.state.manufacturer.display}
                         color={this.props.state.style}
                         variant="filled"
                         label="Name"
@@ -39,7 +40,7 @@ class DeviceForm extends Component {
                     <Grid item xs={2}></Grid>
                     <Grid item xs={8}>
                       <Autocomplete
-                        defaultValue={this.props.state.deviceRole}
+                        defaultValue={this.props.state.deviceRole.display}
                         loading={this.props.state.loading}
                         options={this.props.state.deviceRoleOptions}
                         onFocus={this.props.onFocus.deviceRole}
@@ -72,10 +73,10 @@ class DeviceForm extends Component {
                     <Grid item xs={2}></Grid>
                     <Grid item xs={8}>
                       <Autocomplete
-                        defaultValue={this.props.state.deviceRole}
+                        defaultValue={this.props.state.manufacturer.display}
                         loading={this.props.state.loading}
-                        options={this.props.state.deviceRoleOptions}
-                        onFocus={this.props.onFocus.deviceRole}
+                        options={this.props.state.manufacturerOptions}
+                        onFocus={this.props.onFocus.manufacturer}
                         renderInput={(params) => (
                           <TextField
                             {...params}
@@ -90,7 +91,7 @@ class DeviceForm extends Component {
                     <Grid item xs={2}></Grid>
                     <Grid item xs={8}>
                       <Autocomplete
-                        defaultValue={this.props.state.deviceType}
+                        defaultValue={this.props.state.deviceType.display}
                         loading={this.props.state.loading}
                         options={this.props.state.deviceTypeOptions}
                         onFocus={this.props.onFocus.deviceType}
@@ -123,7 +124,7 @@ class DeviceForm extends Component {
                     <Grid item xs={2}></Grid>
                     <Grid item xs={8}>
                       <Autocomplete
-                        defaultValue={this.props.state.site}
+                        defaultValue={this.props.state.site.display}
                         loading={this.props.state.loading}
                         options={this.props.state.siteOptions}
                         onFocus={this.props.onFocus.site}

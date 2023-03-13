@@ -19,9 +19,11 @@ class InfoTab extends Component {
       site: this.onSite,
       deviceRole: this.onDeviceRole,
       deviceType: this.onDeviceType,
+      manufacturer: this.onManufacturer,
     };
     this.formRef = React.createRef(); // create a ref for DeviceForm component
     this.state = {
+      manufacturerOptions: [],
       locationOptions: [],
       deviceRoleOptions: [],
       deviceTypeOptions: [],
@@ -29,12 +31,13 @@ class InfoTab extends Component {
       loading: false,
       editDevice: false,
       error: false,
-      site: "",
+      site: {},
       location: "",
       rack: "",
       position: "",
-      deviceType: "",
-      deviceRole: "",
+      manufacturer: "",
+      deviceType: {},
+      deviceRole: {},
       description: "",
       status: "",
       ipv4: "",
@@ -48,15 +51,29 @@ class InfoTab extends Component {
 
   componentDidMount() {
     this.setState({
+      manufacturerOptions: [],
       deviceRoleOptions: [],
       deviceTypeOptions: [],
       siteOptions: [],
-      site: this.props.row.site.display,
-      location: "",
+      site: {
+        display: this.props.row.site.display,
+        id: this.props.row.site.id,
+      },
+      location: this.props.row.location ? this.props.row.location.display : "-",
       rack: this.props.row.rack.display,
       position: this.props.row.position,
-      deviceType: this.props.row.device_type.display,
-      deviceRole: this.props.row.device_role.display,
+      manufacturer: {
+        display: this.props.row.device_type.manufacturer.display,
+        id: this.props.row.device_type.manufacturer.id,
+      },
+      deviceType: {
+        display: this.props.row.device_type.display,
+        id: this.props.row.device_type.id,
+      },
+      deviceRole: {
+        display: this.props.row.device_role.display,
+        id: this.props.row.device_role.id,
+      },
       description: this.props.row.description,
       status: this.props.row.status.label,
       ipv4: this.props.row.primary_ip4.display,
@@ -67,6 +84,7 @@ class InfoTab extends Component {
   handleDeviceEdit = () => {
     this.setState({ editDevice: true });
   };
+
   onSite = async () => {
     try {
       this.setState({ loading: true });
@@ -76,6 +94,7 @@ class InfoTab extends Component {
       this.setState({ loading: false });
     } catch (error) {
       console.log(error);
+      this.setState({ loading: false });
     }
   };
   onDeviceType = async () => {
@@ -87,6 +106,7 @@ class InfoTab extends Component {
       this.setState({ loading: false });
     } catch (error) {
       console.log(error);
+      this.setState({ loading: false });
     }
   };
   onDeviceRole = async () => {
@@ -98,6 +118,19 @@ class InfoTab extends Component {
       this.setState({ loading: false });
     } catch (error) {
       console.log(error);
+      this.setState({ loading: false });
+    }
+  };
+  onManufacturer = async () => {
+    try {
+      this.setState({ loading: true });
+      const response = await axios.get("/api/netbox/dcim/get/manufacturers");
+      const responseList = response.data.responseList;
+      this.setState({ manufacturerOptions: responseList });
+      this.setState({ loading: false });
+    } catch (error) {
+      console.log(error);
+      this.setState({ loading: false });
     }
   };
 
@@ -163,13 +196,13 @@ class InfoTab extends Component {
                       Device
                     </Typography>
                     <Typography variant="body2">
-                      Site: {site}
+                      Site: {site.display}
                       <br />
                       Location: {location}
                       <br />
                       Rack: {rack}
                       <br />
-                      Device Type: {deviceType}
+                      Device Type: {deviceType.display}
                       <br />
                       Description: {description}
                     </Typography>
@@ -194,7 +227,7 @@ class InfoTab extends Component {
                     <Typography variant="body2">
                       Status: {status}
                       <br />
-                      Role: {deviceRole}
+                      Role: {deviceRole.display}
                       <br />
                       Platform: {platform}
                       <br />
