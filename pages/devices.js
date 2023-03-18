@@ -56,8 +56,9 @@ function Devices() {
       .get("/api/netbox/dcim/devices/get")
       .then(function (response) {
         const deviceJSON = response.data["results"];
+        console.log(deviceJSON);
         deviceJSON.forEach((i) => {
-          if (i["site"]["slug"] == "MAIN") {
+          if (i.site.name == "HMC Coporate Headquaters") {
             mainDev.push(i);
           } else {
             remoteDev.push(i);

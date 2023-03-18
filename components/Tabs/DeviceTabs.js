@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import { useState, useEffect, Component } from "react";
+import { useState } from "react";
 import DialogTitle from "@mui/material/DialogTitle";
 import SettingsInputHdmiIcon from "@mui/icons-material/SettingsInputHdmi";
 import DescriptionIcon from "@mui/icons-material/Description";

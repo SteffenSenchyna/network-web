@@ -43,26 +43,32 @@ function Home() {
   const coloursRemote = ["#B388FC", "rgba(179, 136, 252, 0.27)"];
 
   const getUpDevices = async () => {
-    await axios
-      .get("/api/scan/")
-      .then(function (response) {
-        const deviceJSON = response.data;
-        setUpDevicesMain(deviceJSON["upDevicesMain"]);
-        setTotalDevicesMain(deviceJSON["totalDevicesMain"]);
-        setDownDevicesMain(deviceJSON["downDevicesMain"]);
-        setUpDevicesRemote(deviceJSON["upDevicesRemote"]);
-        setTotalDevicesRemote(deviceJSON["totalDevicesRemote"]);
-        setDownDevicesRemote(deviceJSON["downDevicesRemote"]);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    // await axios
+    //   .get("/api/network/scan/")
+    //   .then(function (response) {
+    //     const deviceJSON = response.data;
+    // setUpDevicesMain(deviceJSON["upDevicesMain"]);
+    // setTotalDevicesMain(deviceJSON["totalDevicesMain"]);
+    // setDownDevicesMain(deviceJSON["downDevicesMain"]);
+    // setUpDevicesRemote(deviceJSON["upDevicesRemote"]);
+    // setTotalDevicesRemote(deviceJSON["totalDevicesRemote"]);
+    // setDownDevicesRemote(deviceJSON["downDevicesRemote"]);
+    setUpDevicesMain(8);
+    setTotalDevicesMain(12);
+    setDownDevicesMain(4);
+    setUpDevicesRemote(3);
+    setTotalDevicesRemote(6);
+    setDownDevicesRemote(3);
+    setLoading(false);
+    // })
+    // .catch((error) => {
+    //   console.log(error);
+    // });
   };
 
   const getBandwidth = async () => {
     await axios
-      .get("/api/bandwidth/")
+      .get("/api/network/bandwidth/")
       .then(function (response) {
         const deviceJSON = response.data;
         setBandwidthMain(deviceJSON["bandwidthSpeedsMain"]);
@@ -74,21 +80,19 @@ function Home() {
   };
 
   const getDevices = async () => {
-    const mainDev = [];
-    const remoteDev = [];
     await axios
-      .get("/api/netbox/dcim/devices/get")
+      .get("/api/netbox/dcim/scan/get")
       .then(function (response) {
-        const deviceJSON = response.data["results"];
-        deviceJSON.forEach((i) => {
-          if (i["site"]["slug"] == "MAIN") {
-            mainDev.push(i);
-          } else {
-            remoteDev.push(i);
-          }
-        });
-        setMainDevices(mainDev);
-        setRemoteDevices(remoteDev);
+        const devices = response.data;
+        console.log(devices);
+        setRemoteDevices(devices.devicesRemote);
+        setMainDevices(devices.devicesMain);
+        setUpDevicesMain(devices.upDevicesMain);
+        setTotalDevicesMain(devices.totalDevicesMain);
+        setDownDevicesMain(devices.downDevicesMain);
+        setUpDevicesRemote(devices.upDevicesRemote);
+        setTotalDevicesRemote(devices.totalDevicesRemote);
+        setDownDevicesRemote(devices.downDevicesRemote);
       })
       .catch((error) => {
         console.log(error);
@@ -120,11 +124,11 @@ function Home() {
       width: 110,
     },
     {
-      field: "status",
+      field: "ping_status",
       headerName: "Status",
       width: 110,
       renderCell(params) {
-        return params.value.value === "active" ? (
+        return params.value.value === "up" ? (
           <Chip
             icon={<CheckCircleOutlineIcon />}
             label="Active"

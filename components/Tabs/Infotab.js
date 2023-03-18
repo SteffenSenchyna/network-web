@@ -31,6 +31,7 @@ class InfoTab extends Component {
       loading: false,
       editDevice: false,
       error: false,
+      name: "",
       site: {},
       location: "",
       rack: "",
@@ -61,6 +62,7 @@ class InfoTab extends Component {
       },
       location: this.props.row.location ? this.props.row.location.display : "-",
       rack: this.props.row.rack.display,
+      name: this.props.row.name,
       position: this.props.row.position,
       manufacturer: {
         display: this.props.row.device_type.manufacturer.display,
@@ -77,6 +79,10 @@ class InfoTab extends Component {
       description: this.props.row.description,
       status: this.props.row.status.label,
       ipv4: this.props.row.primary_ip4.display,
+      ipv6: this.props.row.primary_ip6
+        ? this.props.row.primary_ip6.display
+        : "-",
+
       editDevice: false,
     });
   }
@@ -162,6 +168,7 @@ class InfoTab extends Component {
       deviceType,
       deviceRole,
       description,
+      name,
       status,
       platform,
       ipv4,
@@ -196,13 +203,9 @@ class InfoTab extends Component {
                       Device
                     </Typography>
                     <Typography variant="body2">
-                      Site: {site.display}
+                      Name: {name}
                       <br />
-                      Location: {location}
-                      <br />
-                      Rack: {rack}
-                      <br />
-                      Device Type: {deviceType.display}
+                      Role: {deviceRole.display}
                       <br />
                       Description: {description}
                     </Typography>
@@ -227,13 +230,45 @@ class InfoTab extends Component {
                     <Typography variant="body2">
                       Status: {status}
                       <br />
-                      Role: {deviceRole.display}
+                      Device Type: {deviceType.display}
                       <br />
                       Platform: {platform}
                       <br />
                       IPv4: {ipv4}
                       <br />
-                      IPv6:
+                      IPv6: {ipv6}
+                      <br />
+                      Site: {site.display}
+                    </Typography>
+                  </CardContent>
+                  <CardActions style={{ justifyContent: "flex-end" }}>
+                    <Button color={style} size="small">
+                      Edit
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+              <Grid item xs={6}>
+                <Card>
+                  <CardContent>
+                    <Typography variant="h5" component="div" sx={{ mb: 1 }}>
+                      Location
+                    </Typography>
+                    <Typography variant="body2">
+                      Site: {site.display}
+                      <br />
+                      Location: {location}
+                      <br />
+                      Rack: {rack}
+                      <br />
+                      Device Type: {deviceType.display}
+                      <br />
+                      Platform: {platform}
+                      <br />
+                      IPv4: {ipv4}
+                      <br />
+                      IPv6: {ipv6}
+                      <br />
                     </Typography>
                   </CardContent>
                   <CardActions style={{ justifyContent: "flex-end" }}>
@@ -258,6 +293,7 @@ class InfoTab extends Component {
                   </CardActions>
                 </Card>
               </Grid>
+
               <Grid item xs={6}>
                 <Card>
                   <CardContent>

@@ -52,10 +52,8 @@ export default function BackupTab(props) {
 
   const pullBackUp = async (index) => {
     try {
-      setLoading(true);
-      const response = await axios.get(`/api/s3/backup/get/${device}`);
+      const response = await axios.get(`/api/s3/backup/pull/${index}`);
       const backup = response.data;
-      setLoading(false);
       download(backup, `${index}.txt`, "text/plain");
     } catch (error) {
       console.log(error);
