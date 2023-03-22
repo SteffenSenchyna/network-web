@@ -260,15 +260,6 @@ class InfoTab extends Component {
                       Location: {location}
                       <br />
                       Rack: {rack}
-                      <br />
-                      Device Type: {deviceType.display}
-                      <br />
-                      Platform: {platform}
-                      <br />
-                      IPv4: {ipv4}
-                      <br />
-                      IPv6: {ipv6}
-                      <br />
                     </Typography>
                   </CardContent>
                   <CardActions style={{ justifyContent: "flex-end" }}>

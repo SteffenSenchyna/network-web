@@ -53,21 +53,6 @@ function Scan() {
             <Typography sx={{ fontSize: 16 }} align="center">
               Scan
             </Typography>
-            <input></input>
-            <TextField
-              label="Outlined"
-              InputLabelProps={{
-                classes: {
-                  root: classes.label,
-                },
-              }}
-              InputProps={{
-                classes: {
-                  notchedOutline: classes.customOutline,
-                  input: classes.input,
-                },
-              }}
-            />
           </CardContent>
         </Card>
       </Grid>

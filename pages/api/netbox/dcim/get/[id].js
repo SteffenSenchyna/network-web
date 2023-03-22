@@ -25,11 +25,11 @@ export default async function handler(req, res) {
       if (response.status == 200) {
         const responseJSON = response.data.results;
         const responseList = responseJSON.map((item) => item.display);
-        res.status(response.status).json({ responseList: responseList });
+        res.status(200).json({ responseList: responseList });
       }
     })
     .catch(function (response) {
       console.log("Failed to grab sites from Netbox SQL database");
-      res.status(response.status).json(response.data);
+      res.status(400).json(response.data);
     });
 }

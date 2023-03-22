@@ -22,6 +22,7 @@ export default async function handler(req, res) {
   await axios(request)
     .then(function (response) {
       if (response.status == 200) {
+        console.log(response.data);
         res.status(200).json(response.data);
       }
     })

@@ -1,17 +1,38 @@
 export default async function handler(req, res) {
-  const n = 50;
-  // Generate random bandwidth speeds (in Mbps)
-  const bandwidthSpeedsMain = Array.from({ length: n }, (_, i) => ({
-    value: Math.floor(Math.random() * (1000 - 1 + 1) + 1),
-    key: Math.random(),
-  }));
+  const MongoClient = require("mongodb").MongoClient;
+  const url = "mongodb://localhost:27017/";
+  const dbName = "network";
+  const collectionName = "bandwidth";
 
-  const bandwidthSpeedsRemote = Array.from({ length: n }, (_, i) => ({
-    value: Math.floor(Math.random() * (1000 - 1 + 1) + 1),
-    key: Math.random(),
-  }));
+  // Connect to the database
+  const client = await MongoClient.connect(url, { useNewUrlParser: true });
+  const db = client.db(dbName);
+  const collection = db.collection(collectionName);
+
+  // Query the collection
+  const query = await collection
+    .find({
+      created_at: {
+        $lt: new Date(),
+        $gte: new Date(new Date().setDate(new Date().getDate() - 1)),
+      },
+    })
+    .toArray();
+  client.close();
+  const download_speed = [];
+  const upload_speed = [];
+  query.forEach((i) => {
+    download_speed.push({
+      created_at: i.created_at,
+      download_speed: i.downloadSpeed,
+    });
+    upload_speed.push({
+      created_at: i.created_at,
+      upload_speed: i.uploadSpeed,
+    });
+  });
 
   // Save the data as a JSON variable
-  const data = { bandwidthSpeedsMain, bandwidthSpeedsRemote };
+  const data = { download_speed: download_speed, upload_speed: upload_speed };
   res.status(200).json(data);
 }

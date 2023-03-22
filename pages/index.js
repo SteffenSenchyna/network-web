@@ -22,6 +22,9 @@ import {
   Area,
   ResponsiveContainer,
   Tooltip,
+  XAxis,
+  YAxis,
+  CartesianGrid,
 } from "recharts";
 
 function Home() {
@@ -35,44 +38,21 @@ function Home() {
   const [totalDevicesRemote, setTotalDevicesRemote] = useState(0);
   const [upDevicesRemote, setUpDevicesRemote] = useState(0);
   const [downDevicesRemote, setDownDevicesRemote] = useState(0);
-  const [bandwidthMain, setBandwidthMain] = useState([]);
-  const [bandwidthRemote, setBandwidthRemote] = useState([]);
+  const [bandwidthDown, setBandwidthDown] = useState([]);
+  const [bandwidthUp, setBandwidthUp] = useState([]);
 
   const router = useRouter();
   const coloursMain = ["#03DAc5", "#006b60"];
   const coloursRemote = ["#B388FC", "rgba(179, 136, 252, 0.27)"];
 
-  const getUpDevices = async () => {
-    // await axios
-    //   .get("/api/network/scan/")
-    //   .then(function (response) {
-    //     const deviceJSON = response.data;
-    // setUpDevicesMain(deviceJSON["upDevicesMain"]);
-    // setTotalDevicesMain(deviceJSON["totalDevicesMain"]);
-    // setDownDevicesMain(deviceJSON["downDevicesMain"]);
-    // setUpDevicesRemote(deviceJSON["upDevicesRemote"]);
-    // setTotalDevicesRemote(deviceJSON["totalDevicesRemote"]);
-    // setDownDevicesRemote(deviceJSON["downDevicesRemote"]);
-    setUpDevicesMain(8);
-    setTotalDevicesMain(12);
-    setDownDevicesMain(4);
-    setUpDevicesRemote(3);
-    setTotalDevicesRemote(6);
-    setDownDevicesRemote(3);
-    setLoading(false);
-    // })
-    // .catch((error) => {
-    //   console.log(error);
-    // });
-  };
-
   const getBandwidth = async () => {
     await axios
       .get("/api/network/bandwidth/")
       .then(function (response) {
-        const deviceJSON = response.data;
-        setBandwidthMain(deviceJSON["bandwidthSpeedsMain"]);
-        setBandwidthRemote(deviceJSON["bandwidthSpeedsRemote"]);
+        const responseJSON = response.data;
+        // console.log(responseJSON);
+        setBandwidthDown(responseJSON["download_speed"]);
+        setBandwidthUp(responseJSON["upload_speed"]);
       })
       .catch((error) => {
         console.log(error);
@@ -84,7 +64,6 @@ function Home() {
       .get("/api/netbox/dcim/scan/get")
       .then(function (response) {
         const devices = response.data;
-        console.log(devices);
         setRemoteDevices(devices.devicesRemote);
         setMainDevices(devices.devicesMain);
         setUpDevicesMain(devices.upDevicesMain);
@@ -101,12 +80,15 @@ function Home() {
 
   useEffect(() => {
     getBandwidth();
-    getUpDevices();
     getDevices();
   }, []);
 
-  const bandDataMain = bandwidthMain;
-  const bandDataRemote = bandwidthRemote;
+  const bandDown = bandwidthDown;
+  const bandUp = bandwidthUp;
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US");
+  };
   const dataMain = [
     { name: "OnlineMain", value: upDevicesMain },
     { name: "DownMain", value: downDevicesMain },
@@ -277,23 +259,23 @@ function Home() {
               Network Bandwidth
             </Typography>
             <Typography gutterBottom variant="h5" component="div">
-              Main Site
+              Download Speed
             </Typography>
             <ResponsiveContainer width="99%" height={100}>
-              <AreaChart width={540} height={100} data={bandDataMain}>
+              <AreaChart width={540} height={100} data={bandwidthDown}>
                 <Area
                   type="monotone"
-                  dataKey="value"
+                  dataKey="download_speed"
                   stroke="#03DAc5"
                   strokeWidth={2}
                   fill="#006b60"
                 />
                 <Tooltip
-                  content={({ active, payload, label }) => {
+                  content={({ active, payload }) => {
                     if (active) {
                       return (
                         <div>
-                          <p>{`${label}: ${payload[0].value}Mbps`}</p>
+                          <p>{`${payload[0].value}Mbps`}</p>
                         </div>
                       );
                     }
@@ -303,23 +285,23 @@ function Home() {
               </AreaChart>
             </ResponsiveContainer>
             <Typography gutterBottom variant="h5" component="div">
-              Remote Site
+              Upload Speed
             </Typography>
             <ResponsiveContainer width="99%" height={100}>
-              <AreaChart width={540} height={100} data={bandDataRemote}>
+              <AreaChart width={540} height={100} data={bandwidthUp}>
                 <Area
                   type="monotone"
-                  dataKey="value"
+                  dataKey="upload_speed"
                   stroke="#B388FC"
                   strokeWidth={2}
                   fill="rgba(179, 136, 252, 0.27)"
                 />
                 <Tooltip
-                  content={({ active, payload, label }) => {
+                  content={({ active, payload }) => {
                     if (active) {
                       return (
                         <div>
-                          <p>{`${label}: ${payload[0].value}Mbps`}</p>
+                          <p>{`${payload[0].value}Mbps`}</p>
                         </div>
                       );
                     }
