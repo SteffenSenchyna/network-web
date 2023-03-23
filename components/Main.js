@@ -23,6 +23,7 @@ import RouterIcon from "@mui/icons-material/Router";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import RadarIcon from "@mui/icons-material/Radar";
 import ContactSupportIcon from "@mui/icons-material/ContactSupport";
+import DescriptionIcon from "@mui/icons-material/Description";
 
 const theme = createTheme({
   palette: {
@@ -112,8 +113,8 @@ const Layout = ({ children }) => {
   const router = useRouter();
 
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
-  const pageTitles = ["Dashboard", "Scan", "Devices", "Support"];
-  const pagePaths = ["/", "/scan", "/devices", "/support"];
+  const pageTitles = ["Dashboard", "Scan", "Devices", "Logs"];
+  const pagePaths = ["/", "/scan", "/devices", "/logs"];
   const [value, setValue] = useState("/");
   const handleNavigationClickBottom = (event, index) => {
     setValue(index);
@@ -129,9 +130,9 @@ const Layout = ({ children }) => {
     } else if (router.pathname.includes("/devices")) {
       setCurrentPageIndex(2);
       setValue("/devices");
-    } else if (router.pathname.includes("/support")) {
+    } else if (router.pathname.includes("/logs")) {
       setCurrentPageIndex(3);
-      setValue("/support");
+      setValue("/logs");
     } else if (router.pathname.includes("/")) {
       setCurrentPageIndex(0);
       setValue("/");
@@ -192,10 +193,8 @@ const Layout = ({ children }) => {
                           {page === "Devices" && (
                             <RouterIcon sx={{ width: 30, height: 30 }} />
                           )}
-                          {page === "Support" && (
-                            <ContactSupportIcon
-                              sx={{ width: 30, height: 30 }}
-                            />
+                          {page === "Logs" && (
+                            <DescriptionIcon sx={{ width: 30, height: 30 }} />
                           )}
                         </ListItemIcon>
                         <ListItemText
@@ -222,10 +221,8 @@ const Layout = ({ children }) => {
                           {page === "Devices" && (
                             <RouterIcon sx={{ width: 30, height: 30 }} />
                           )}
-                          {page === "Support" && (
-                            <ContactSupportIcon
-                              sx={{ width: 30, height: 30 }}
-                            />
+                          {page === "Logs" && (
+                            <DescriptionIcon sx={{ width: 30, height: 30 }} />
                           )}
                         </ListItemIcon>
                         <ListItemText
@@ -277,9 +274,9 @@ const Layout = ({ children }) => {
               icon={<RouterIcon />}
             />
             <BottomNavigationAction
-              label="Support"
-              value="/support"
-              icon={<ContactSupportIcon />}
+              label="Logs"
+              value="/logs"
+              icon={<DescriptionIcon />}
             />
           </BottomNavigation>
         </Box>

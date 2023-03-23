@@ -103,7 +103,7 @@ function Home() {
     {
       field: "name",
       headerName: "Device",
-      width: 110,
+      width: 120,
     },
     {
       field: "ping_status",

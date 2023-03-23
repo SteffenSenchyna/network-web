@@ -1,9 +1,14 @@
 export default async function handler(req, res) {
   const MongoClient = require("mongodb").MongoClient;
-  const url = "mongodb://localhost:27017/";
+  const env = process.env.ENV;
+  var url = "";
+  if (env == "local") {
+    url = "mongodb://0.0.0.0:27017/";
+  } else {
+    url = "mongodb://mongodb:27017/";
+  }
   const dbName = "network";
   const collectionName = "bandwidth";
-
   // Connect to the database
   const client = await MongoClient.connect(url, { useNewUrlParser: true });
   const db = client.db(dbName);

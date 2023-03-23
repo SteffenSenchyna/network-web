@@ -50,7 +50,7 @@ function Scan() {
       <Grid item xs={12}>
         <Card sx={{ minWidth: 275 }}>
           <CardContent>
-            <Typography sx={{ fontSize: 16 }} align="center">
+            <Typography variant="h4" align="center">
               Scan
             </Typography>
           </CardContent>

@@ -190,7 +190,7 @@ function Devices() {
     {
       field: "name",
       headerName: "Device",
-      width: 110,
+      width: 130,
     },
     {
       field: "status",
