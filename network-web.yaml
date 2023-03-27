@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: network-web-deployment
+  labels:
+    app: network-web
+#Grabs template and deploys it
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: network-web
+  #Configuration for pod
+  template:
+    metadata:
+      labels:
+        app: network-web
+    #Which image and what port
+    spec:
+      containers:
+        - name: network-web
+          image: ssenchyna/network-web:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: USER_NAME
+              valueFrom:
+                secretKeyRef:
+                  #References mongo-secret file and grabs value for mongo-user
+                  name: mongo-secret
+                  key: mongo-user
+            - name: USER_PWD
+              valueFrom:
+                secretKeyRef:
+                  #References mongo-secret file and grabs value for mongo-user
+                  name: mongo-secret
+                  key: mongo-password
+            - name: DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  #References mongo-secret file and grabs value for mongo-user
+                  name: mongo-config
+                  key: mongo-url
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: network-web-service
+spec:
+  type: NodePort
+  #Matches services to pods
+  selector:
+    app: network-web
+  ports:
+    - protocol: TCP
+      #Service Port
+      port: 3000
+      #Pod Port
+      targetPort: 3000
+      #Opens on external facing interface on node range betweem 30000-32767
+      nodePort: 30100
+

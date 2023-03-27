@@ -7,7 +7,7 @@ import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import CircularProgress from "@mui/material/CircularProgress";
+import Skeleton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import Dialog from "@mui/material/Dialog";
@@ -22,7 +22,7 @@ import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import DeviceTabs from "../components/Tabs/DeviceTabs";
 
 function Devices() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [row, setRow] = useState([]);
   const [site, setSite] = useState("");
   const [style, setStyle] = useState("");
@@ -50,40 +50,33 @@ function Devices() {
   };
 
   const getDevices = async () => {
-    const mainDev = [];
-    const remoteDev = [];
+    setLoading(true);
     await axios
-      .get("/api/netbox/dcim/devices/get")
+      .get("/api/netbox/dcim/scan/get")
       .then(function (response) {
-        const deviceJSON = response.data["results"];
-        console.log(deviceJSON);
-        deviceJSON.forEach((i) => {
-          if (i.site.name == "HMC Coporate Headquaters") {
-            mainDev.push(i);
-          } else {
-            remoteDev.push(i);
-          }
-        });
-        setMainDevices(mainDev);
-        setRemoteDevices(remoteDev);
+        const devices = response.data;
+        setRemoteDevices(devices.devicesRemote);
+        setMainDevices(devices.devicesMain);
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setLoading(false);
       });
   };
 
   const getInterfaces = async (id) => {
-    setLoading[true];
+    setLoading(true);
     await axios
       .get(`/api/netbox/dcim/interfaces/get/${id}`)
       .then(function (response) {
         const deviceJSON = response.data;
         setInterfaces(deviceJSON);
-        setLoading[false];
+        setLoading(false);
       })
       .catch((error) => {
-        setLoading[false];
         console.log(error);
+        setLoading(false);
       });
   };
 
@@ -97,11 +90,12 @@ function Devices() {
       width: 110,
     },
     {
-      field: "enabled",
+      field: "ping_status",
       headerName: "Status",
       width: 110,
       renderCell(params) {
-        return params.row.enabled === true ? (
+        console.log(params);
+        return params.value === "up" ? (
           <Chip
             icon={<CheckCircleOutlineIcon />}
             label="Active"
@@ -193,11 +187,11 @@ function Devices() {
       width: 130,
     },
     {
-      field: "status",
+      field: "ping_status",
       headerName: "Status",
       width: 110,
       renderCell(params) {
-        return params.value.value === "active" ? (
+        return params.value === "up" ? (
           <Chip
             icon={<CheckCircleOutlineIcon />}
             label="Active"
@@ -257,6 +251,21 @@ function Devices() {
       width: 230,
     },
   ];
+  const LoadingSkeleton = () => (
+    <Box
+      sx={{
+        height: "max-content",
+      }}
+    >
+      {[...Array(10)].map((_) => (
+        <Skeleton
+          animation="wave"
+          variant="rectangular"
+          sx={{ my: 2, mx: 1 }}
+        />
+      ))}
+    </Box>
+  );
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -292,6 +301,11 @@ function Devices() {
           }}
         >
           <DataGrid
+            loadingOverlay={LoadingSkeleton}
+            components={{
+              LoadingOverlay: LoadingSkeleton,
+            }}
+            loading={loading}
             hideFooter
             onCellClick={handleCellClick}
             disableSelectionOnClick
@@ -332,6 +346,11 @@ function Devices() {
       <Grid item xs={12} lg={12}>
         <Box sx={{ height: 350, width: "100%" }}>
           <DataGrid
+            loadingOverlay={LoadingSkeleton}
+            components={{
+              LoadingOverlay: LoadingSkeleton,
+            }}
+            loading={loading}
             hideFooter
             onCellClick={handleCellClick}
             disableSelectionOnClick

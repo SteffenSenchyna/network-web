@@ -8,6 +8,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
+import Skeleton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import { DataGrid } from "@mui/x-data-grid";
@@ -22,9 +23,6 @@ import {
   Area,
   ResponsiveContainer,
   Tooltip,
-  XAxis,
-  YAxis,
-  CartesianGrid,
 } from "recharts";
 
 function Home() {
@@ -72,9 +70,11 @@ function Home() {
         setUpDevicesRemote(devices.upDevicesRemote);
         setTotalDevicesRemote(devices.totalDevicesRemote);
         setDownDevicesRemote(devices.downDevicesRemote);
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setLoading(false);
       });
   };
 
@@ -110,7 +110,7 @@ function Home() {
       headerName: "Status",
       width: 110,
       renderCell(params) {
-        return params.value.value === "up" ? (
+        return params.value === "up" ? (
           <Chip
             icon={<CheckCircleOutlineIcon />}
             label="Active"
@@ -153,6 +153,35 @@ function Home() {
       width: 230,
     },
   ];
+  const loadingOverlayCircular = () => (
+    <div
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        height: "100%",
+        width: "100%",
+        backgroundColor: "rgba(255, 255, 255, 0.7)",
+      }}
+    >
+      <CircularProgress />
+    </div>
+  );
+  const LoadingSkeleton = () => (
+    <Box
+      sx={{
+        height: "max-content",
+      }}
+    >
+      {[...Array(10)].map((_) => (
+        <Skeleton
+          animation="wave"
+          variant="rectangular"
+          sx={{ my: 2, mx: 1 }}
+        />
+      ))}
+    </Box>
+  );
 
   return (
     <Grid container spacing={2}>
@@ -184,69 +213,97 @@ function Home() {
                 <Typography gutterBottom variant="h5" component="div">
                   Main Site
                 </Typography>
-                <PieChart
-                  id="PieMain"
-                  margin={{ top: 40, left: 0, right: 0, bottom: 0 }}
-                  width={200}
-                  height={200}
-                >
-                  <Pie
-                    dataKey="value"
-                    data={dataMain}
-                    innerRadius={60}
-                    outerRadius={80}
-                    fill="#8884d8"
-                    paddingAngle={0}
-                    startAngle={-90}
-                    label={false}
-                    labelLine={false}
-                    stroke="none"
-                    isSelectionDisabled={true}
+                {loading ? (
+                  <Box
+                    sx={{
+                      paddingTop: 6,
+                      minWidth: 200,
+                      width: 200,
+                      height: 200,
+                    }}
                   >
-                    {dataMain.map((entry, index) => (
-                      <Cell
-                        isSelectionDisabled={true}
-                        key={`cell-${index}`}
-                        fill={coloursMain[index % coloursMain.length]}
-                      />
-                    ))}
-                    <Label value={labelMain} position="center" />
-                  </Pie>
-                </PieChart>
+                    <CircularProgress size={140} />
+                  </Box>
+                ) : (
+                  <PieChart
+                    id="PieMain"
+                    margin={{ top: 40, left: 0, right: 0, bottom: 0 }}
+                    width={200}
+                    height={200}
+                  >
+                    <Pie
+                      dataKey="value"
+                      data={dataMain}
+                      innerRadius={60}
+                      outerRadius={80}
+                      fill="#8884d8"
+                      paddingAngle={0}
+                      startAngle={-90}
+                      label={false}
+                      labelLine={false}
+                      stroke="none"
+                      isSelectionDisabled={true}
+                    >
+                      {dataMain.map((entry, index) => (
+                        <Cell
+                          isSelectionDisabled={true}
+                          key={`cell-${index}`}
+                          fill={coloursMain[index % coloursMain.length]}
+                        />
+                      ))}
+                      <Label value={labelMain} position="center" />
+                    </Pie>
+                  </PieChart>
+                )}
               </Grid>
               <Grid item>
                 <Typography gutterBottom variant="h5" component="div">
                   Remote Site
                 </Typography>
-                <PieChart
-                  id="PieRemote"
-                  margin={{ top: 40, left: 0, right: 0, bottom: 0 }}
-                  width={200}
-                  height={200}
-                >
-                  <Pie
-                    activeIndex={activeIndex}
-                    dataKey="value"
-                    data={dataRemote}
-                    innerRadius={60}
-                    outerRadius={80}
-                    margin={{ top: 20 }}
-                    fill="#8884d8"
-                    paddingAngle={0}
-                    startAngle={-90}
-                    label={false}
-                    labelLine={false}
-                    stroke="none"
+                {loading ? (
+                  <>
+                    <Box
+                      sx={{
+                        paddingTop: 6,
+                        minWidth: 200,
+                        width: 200,
+                        height: 200,
+                      }}
+                    >
+                      <CircularProgress color="secondary" size={140} />
+                    </Box>
+                  </>
+                ) : (
+                  <PieChart
+                    id="PieRemote"
+                    margin={{ top: 40, left: 0, right: 0, bottom: 0 }}
+                    width={200}
+                    height={200}
                   >
-                    {dataRemote.map((entry, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={coloursRemote[index % coloursRemote.length]}
-                      />
-                    ))}
-                    <Label value={labelRemote} position="center" />
-                  </Pie>
-                </PieChart>
+                    <Pie
+                      activeIndex={activeIndex}
+                      dataKey="value"
+                      data={dataRemote}
+                      innerRadius={60}
+                      outerRadius={80}
+                      margin={{ top: 20 }}
+                      fill="#8884d8"
+                      paddingAngle={0}
+                      startAngle={-90}
+                      label={false}
+                      labelLine={false}
+                      stroke="none"
+                    >
+                      {dataRemote.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={coloursRemote[index % coloursRemote.length]}
+                        />
+                      ))}
+                      <Label value={labelRemote} position="center" />
+                    </Pie>
+                  </PieChart>
+                )}
               </Grid>
             </Grid>
           </CardContent>
@@ -275,7 +332,11 @@ function Home() {
                     if (active) {
                       return (
                         <div>
-                          <p>{`${payload[0].value}Mbps`}</p>
+                          <p>
+                            {payload && payload[0] && payload[0].value
+                              ? `${payload[0].value}Mbps`
+                              : "N/A"}
+                          </p>
                         </div>
                       );
                     }
@@ -301,7 +362,11 @@ function Home() {
                     if (active) {
                       return (
                         <div>
-                          <p>{`${payload[0].value}Mbps`}</p>
+                          <p>
+                            {payload && payload[0] && payload[0].value
+                              ? `${payload[0].value}Mbps`
+                              : "N/A"}
+                          </p>
                         </div>
                       );
                     }
@@ -322,6 +387,11 @@ function Home() {
         >
           <DataGrid
             hideFooter
+            loadingOverlay={LoadingSkeleton}
+            components={{
+              LoadingOverlay: LoadingSkeleton,
+            }}
+            loading={loading}
             disableSelectionOnClick
             rows={mainDevices}
             columns={columns}
@@ -360,10 +430,15 @@ function Home() {
       <Grid item xs={12} lg={6}>
         <Box sx={{ height: 300, width: "100%" }}>
           <DataGrid
+            loading={loading}
+            loadingOverlay={LoadingSkeleton}
             hideFooter
             disableSelectionOnClick
             rows={remoteDevices}
             columns={columns}
+            components={{
+              LoadingOverlay: LoadingSkeleton,
+            }}
             sx={{
               boxShadow: 2,
               border: 2,
