@@ -1,14 +1,7 @@
 export default async function handler(req, res) {
   const MongoClient = require("mongodb").MongoClient;
-  const env = process.env.ENV;
-  var uri = "";
-  if (env == "local") {
-    uri = "mongodb://0.0.0.0:27017/logs";
-  } else {
-    uri = "mongodb://mongodb:27017/logs";
-  }
-
-  const client = new MongoClient(uri, {
+  const mongoURL = process.env.MONGOURL;
+  const client = new MongoClient(`mongodb://${mongoURL}/syslogs`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
@@ -33,26 +26,28 @@ export default async function handler(req, res) {
     let informational = 0;
 
     collectionEntries.forEach((entry) => {
-      switch (entry.level) {
-        case "EMERGENCY":
+      console.log(entry);
+
+      switch (entry.severity) {
+        case 0:
           emergency++;
           break;
-        case "ALERT":
+        case 1:
           alert++;
           break;
-        case "CRITICAL":
+        case 2:
           critical++;
           break;
-        case "ERROR":
+        case 3:
           error++;
           break;
-        case "WARNING":
+        case 4:
           warning++;
           break;
-        case "NOTICE":
+        case 5:
           notice++;
           break;
-        case "INFORMATIONAL":
+        case 6:
           informational++;
           break;
         default:
@@ -70,7 +65,7 @@ export default async function handler(req, res) {
     };
     collections.push({
       name: collectionName,
-      entries: collectionEntries,
+      entries: collectionEntries.reverse(),
       severityLevels: severityLevels,
     });
   }

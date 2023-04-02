@@ -22,8 +22,8 @@ import { BottomNavigation, BottomNavigationAction } from "@mui/material";
 import RouterIcon from "@mui/icons-material/Router";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import RadarIcon from "@mui/icons-material/Radar";
-import ContactSupportIcon from "@mui/icons-material/ContactSupport";
 import DescriptionIcon from "@mui/icons-material/Description";
+import DynamicFormIcon from "@mui/icons-material/DynamicForm";
 
 const theme = createTheme({
   palette: {
@@ -113,8 +113,8 @@ const Layout = ({ children }) => {
   const router = useRouter();
 
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
-  const pageTitles = ["Dashboard", "Scan", "Devices", "Logs"];
-  const pagePaths = ["/", "/scan", "/devices", "/logs"];
+  const pageTitles = ["Dashboard", "Scan", "Devices", "Syslogs", "SNMP"];
+  const pagePaths = ["/", "/scan", "/devices", "/logs/syslog", "/logs/snmp"];
   const [value, setValue] = useState("/");
   const handleNavigationClickBottom = (event, index) => {
     setValue(index);
@@ -130,9 +130,12 @@ const Layout = ({ children }) => {
     } else if (router.pathname.includes("/devices")) {
       setCurrentPageIndex(2);
       setValue("/devices");
-    } else if (router.pathname.includes("/logs")) {
+    } else if (router.pathname.includes("/logs/syslog")) {
       setCurrentPageIndex(3);
-      setValue("/logs");
+      setValue("/logs/syslog");
+    } else if (router.pathname.includes("/logs/snmp")) {
+      setCurrentPageIndex(4);
+      setValue("/logs/snmp");
     } else if (router.pathname.includes("/")) {
       setCurrentPageIndex(0);
       setValue("/");
@@ -193,8 +196,11 @@ const Layout = ({ children }) => {
                           {page === "Devices" && (
                             <RouterIcon sx={{ width: 30, height: 30 }} />
                           )}
-                          {page === "Logs" && (
+                          {page === "Syslogs" && (
                             <DescriptionIcon sx={{ width: 30, height: 30 }} />
+                          )}
+                          {page === "SNMP" && (
+                            <DynamicFormIcon sx={{ width: 30, height: 30 }} />
                           )}
                         </ListItemIcon>
                         <ListItemText
@@ -221,8 +227,11 @@ const Layout = ({ children }) => {
                           {page === "Devices" && (
                             <RouterIcon sx={{ width: 30, height: 30 }} />
                           )}
-                          {page === "Logs" && (
+                          {page === "Syslogs" && (
                             <DescriptionIcon sx={{ width: 30, height: 30 }} />
+                          )}
+                          {page === "SNMP" && (
+                            <DynamicFormIcon sx={{ width: 30, height: 30 }} />
                           )}
                         </ListItemIcon>
                         <ListItemText
@@ -274,9 +283,14 @@ const Layout = ({ children }) => {
               icon={<RouterIcon />}
             />
             <BottomNavigationAction
-              label="Logs"
-              value="/logs"
+              label="Syslogs"
+              value="/logs/syslog"
               icon={<DescriptionIcon />}
+            />
+            <BottomNavigationAction
+              label="SNMP"
+              value="/logs/snmp"
+              icon={<DynamicFormIcon />}
             />
           </BottomNavigation>
         </Box>

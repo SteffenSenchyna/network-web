@@ -1,8 +1,0 @@
-#ConfigMaps holds persistent data ENV file for non secret data 
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: network-web-config
-data:
-  AWS_S3_BUCKET_NAME: network-conf
-  AWS_DEFAULT_REGION: ca-central-1

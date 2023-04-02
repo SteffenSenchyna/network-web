@@ -1,27 +1,21 @@
 export default async function handler(req, res) {
   const id = req.query.id;
-  const env = process.env.ENV;
   const token = process.env.NETBOXTOKEN;
-  var url = "";
-  if (env == "local") {
-    url = "0.0.0.0:8000";
-  } else {
-    url = "netbox-docker-netbox-1:8080";
-  }
+  const netboxURL = process.env.NETBOXURL;
   let request = {
-    url: `http://${url}/api/dcim/interfaces/?device_id=${id}&embed=interfaces`,
+    url: `http://${netboxURL}/api/dcim/interfaces/?device_id=${id}&embed=interfaces`,
     method: "GET",
     headers: {
       "content-type": "application/json",
-      Authorization: token,
+      Authorization: `Token ${token}`,
     },
   };
   let requestIP = {
-    url: `http://${url}/api/ipam/ip-addresses/?device_id=${id}`,
+    url: `http://${netboxURL}/api/ipam/ip-addresses/?device_id=${id}`,
     method: "GET",
     headers: {
       "content-type": "application/json",
-      Authorization: token,
+      Authorization: `Token ${token}`,
     },
   };
   const axios = require("axios");

@@ -1,15 +1,7 @@
 export default async function handler(req, res) {
-  const formData = req.body;
-  const body = JSON.stringify(formData);
-  const env = process.env.ENV;
-  var url = "";
-  if (env == "local") {
-    url = "0.0.0.0:8081";
-  } else {
-    url = "network-api:8081";
-  }
+  const networkAPIURL = process.env.NETWORKAPIURL;
   let request = {
-    url: `http://${url}/network/scan`,
+    url: `http://${networkAPIURL}/network/scan`,
     method: "GET",
     headers: {
       "content-type": "application/json",
@@ -20,6 +12,8 @@ export default async function handler(req, res) {
     const response = await axios(request);
     res.status(response.status).json(response.data);
   } catch {
-    res.status(400).json(response.data);
+    res
+      .status(400)
+      .json({ message: "Could not retrieve devices from netowrk-api" });
   }
 }
