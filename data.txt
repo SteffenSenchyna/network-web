@@ -1,0 +1,88 @@
+[
+    {
+    ifDescr: 'Ethernet1/2',
+    ifType: 'ethernetCsmacd',
+    inputUtil: 10,
+    outputUtil: 0.8,
+    utilization: 0.08
+  },
+  {
+    ifDescr: 'Ethernet1/3',
+    ifType: 'ethernetCsmacd',
+    inputUtil: 0.2,
+    outputUtil: 0.9,
+    utilization: 1
+  },
+  {
+    ifDescr: 'Ethernet2/0',
+    ifType: 'ethernetCsmacd',
+    inputUtil: 0.2,
+    outputUtil: 1,
+    utilization: 0
+  },
+  {
+    ifDescr: 'Ethernet2/1',
+    ifType: 'ethernetCsmacd',
+    inputUtil: 5,
+    outputUtil: 2,
+    utilization: 3
+  },
+  {
+    ifDescr: 'Ethernet2/2',
+    ifType: 'ethernetCsmacd',
+    inputUtil: 4,
+    outputUtil: 2,
+    utilization: 3
+  },
+  {
+    ifDescr: 'Ethernet2/3',
+    ifType: 'ethernetCsmacd',
+    inputUtil: 5,
+    outputUtil: 2,
+    utilization: 1
+  }
+],
+[
+    {
+    ifDescr: 'Ethernet1/2',
+    ifType: 'ethernetCsmacd',
+    inputUtil: 0.5,
+    outputUtil: 1,
+    utilization: 1
+  },
+  {
+    ifDescr: 'Ethernet1/3',
+    ifType: 'ethernetCsmacd',
+    inputUtil: 7,
+    outputUtil: 2,
+    utilization: 3
+  },
+  {
+    ifDescr: 'Ethernet2/0',
+    ifType: 'ethernetCsmacd',
+    inputUtil: 5,
+    outputUtil: 2,
+    utilization: 3
+  },
+  {
+    ifDescr: 'Ethernet2/1',
+    ifType: 'ethernetCsmacd',
+    inputUtil: 0,
+    outputUtil: 0,
+    utilization: 0
+  },
+  {
+    ifDescr: 'Ethernet2/2',
+    ifType: 'ethernetCsmacd',
+    inputUtil: 0,
+    outputUtil: 0,
+    utilization: 0
+  },
+  {
+    ifDescr: 'Ethernet2/3',
+    ifType: 'ethernetCsmacd',
+    inputUtil: 0,
+    outputUtil: 0,
+    utilization: 0
+  }
+]

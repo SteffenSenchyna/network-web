@@ -7,7 +7,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import SettingsInputHdmiIcon from "@mui/icons-material/SettingsInputHdmi";
 import DescriptionIcon from "@mui/icons-material/Description";
 import BackupIcon from "@mui/icons-material/Backup";
-import InterfaceDatagrid from "./InterfaceDataGrid";
+import InterfaceTable from "../Tables/InterfaceTable";
 import BackupTab from "./DeviceBackUp";
 import InfoTab from "./Infotab";
 function TabPanel(props) {
@@ -103,7 +103,7 @@ function DeviceTabs(props) {
       </TabPanel>
       <TabPanel value={value} index={1} {...a11yProps(1)}>
         <Box sx={{ height: "70vh", width: "100%" }}>
-          <InterfaceDatagrid {...props} />
+          <InterfaceTable {...props} />
         </Box>
       </TabPanel>
       <TabPanel value={value} index={2} {...a11yProps(2)}>

@@ -28,6 +28,7 @@ function Devices() {
   const [style, setStyle] = useState("");
   const [open, setOpen] = useState(false);
   const [selectedCell, setSelectedCell] = useState({});
+  const [intBandwidth, setIntBandwidth] = useState([]);
   const [mainDevices, setMainDevices] = useState([]);
   const [remoteDevices, setRemoteDevices] = useState([]);
   const [deviceSelected, setDeviceSelected] = useState("");
@@ -35,6 +36,7 @@ function Devices() {
   const router = useRouter();
   const handleCellClick = (event) => {
     getInterfaces(event.row.id);
+    getIntBandwidth(event.row.primary_ip.display.split("/")[0]);
     setSelectedCell({
       row: event.row,
     });
@@ -70,8 +72,23 @@ function Devices() {
     await axios
       .get(`/api/netbox/dcim/interfaces/get/${id}`)
       .then(function (response) {
-        const deviceJSON = response.data;
-        setInterfaces(deviceJSON);
+        const responseJSON = response.data;
+        setInterfaces(responseJSON);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
+  };
+
+  const getIntBandwidth = async (id) => {
+    setLoading(true);
+    await axios
+      .get(`/api/network/interfaces/${id}`)
+      .then(function (response) {
+        const responseJSON = response.data;
+        setIntBandwidth(responseJSON);
         setLoading(false);
       })
       .catch((error) => {
@@ -280,6 +297,7 @@ function Devices() {
       <Dialog fullScreen open={open} onClose={() => setOpen(false)}>
         <DialogContent>
           <DeviceTabs
+            intBandwidth={intBandwidth}
             row={row}
             site={site}
             device={deviceSelected}
