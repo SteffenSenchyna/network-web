@@ -19,6 +19,7 @@ export default async function handler(req, res) {
     });
     const response = await s3Client.send(command);
     // Extract the object keys and return as response
+    console.log(response);
     if (response.Contents != null) {
       const objectKeys = response.Contents.map((object) => object.Key);
       const keys = objectKeys

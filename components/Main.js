@@ -254,7 +254,11 @@ const Layout = ({ children }) => {
             <Divider />
           </Drawer>
           <CssBaseline />
-          <Container component="main" sx={{ flexGrow: 1, p: 1 }}>
+          <Container
+            component="main"
+            style={{ width: "100%" }}
+            sx={{ flexGrow: 1, p: 1 }}
+          >
             {children}
           </Container>
           <BottomNavigation

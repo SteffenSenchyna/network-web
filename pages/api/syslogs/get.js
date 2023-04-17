@@ -26,8 +26,6 @@ export default async function handler(req, res) {
     let informational = 0;
 
     collectionEntries.forEach((entry) => {
-      console.log(entry);
-
       switch (entry.severity) {
         case 0:
           emergency++;

@@ -365,7 +365,7 @@ function Home() {
                           <p>
                             {payload && payload[0] && payload[0].value
                               ? `${payload[0].value}Mbps`
-                              : "N/A"}
+                              : "0Mbps"}
                           </p>
                         </div>
                       );
