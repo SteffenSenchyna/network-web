@@ -19,6 +19,9 @@ pipeline {
   }
 
   agent any
+
+  stages {   
+
     stage("Docker login") {
       steps {
         sh """
