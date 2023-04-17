@@ -35,11 +35,16 @@ securityContext: {}
 # readOnlyRootFilesystem: true
 # runAsNonRoot: true
 # runAsUser: 1000
+config:
+  name: default-config
 
 service:
-  type: NodePort
+  type: ClusterIP
   port: 3000
   nodePort: 30000
+  protocol: TCP
+  targetPort: 3000
+  name: http
 
 ingress:
   enabled: false
