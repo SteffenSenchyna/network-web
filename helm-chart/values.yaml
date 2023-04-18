@@ -39,7 +39,7 @@ config:
   name: default-config
 
 service:
-  type: ClusterIP
+  type: NodePort
   port: 3000
   nodePort: 30000
   protocol: TCP
