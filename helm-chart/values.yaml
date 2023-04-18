@@ -44,7 +44,7 @@ service:
   nodePort: 30000
   protocol: TCP
   targetPort: 3000
-  name: http
+
 
 ingress:
   enabled: false
