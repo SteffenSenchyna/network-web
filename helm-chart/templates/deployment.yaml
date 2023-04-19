@@ -37,16 +37,15 @@ spec:
             - configMapRef:
                 name: {{ .Values.config.name }}
           ports:
-            - name: {{ .Values.service.name }}
-              containerPort: {{ .Values.service.port }}
+            - containerPort: {{ .Values.service.port }}
               protocol: {{ .Values.service.protocol }}
           livenessProbe:
             httpGet:
-              path: /
+              path: /health
               port: http
           readinessProbe:
             httpGet:
-              path: /
+              path: /health
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
