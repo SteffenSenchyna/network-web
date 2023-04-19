@@ -41,12 +41,12 @@ spec:
               protocol: {{ .Values.service.protocol }}
           livenessProbe:
             httpGet:
-              path: /health
-              port: http
+              path: /api/health
+              port: 3000
           readinessProbe:
             httpGet:
-              path: /health
-              port: http
+              path: /api/health
+              port: 3000
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
