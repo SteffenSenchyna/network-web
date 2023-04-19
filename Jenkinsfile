@@ -39,7 +39,7 @@ pipeline {
             if (CHART_VER_DEV != CHART_VER) {
               sh """
               sed -i 's/version:.*/version: $CHART_VER/' ./cluster-chart/dev/Chart.yaml
-              yq eval \'.[env(SERVICE)].image.tag = env(BUILD_TAG)\' ./cluster-chart/dev/values.yaml -i
+              yq eval \'.[env(SERVICE)].image.tag = env(BUILD_TAG)\' -i ./cluster-chart/dev/values.yaml
               helm package ./helm-chart
               helm push "$SERVICE-$CHART_VER".tgz oci://registry-1.docker.io/$USER
               """
