@@ -29,7 +29,7 @@ pipeline {
         git branch: "main", url: "https://github.com/SteffenSenchyna/cluster-chart.git"
         // Check to see if there where any changes made to the helm chart
         script {
-          def CHART_VER_DEV = sh(script: "helm show chart ./cluster-chart/dev/$SERVICE | grep '^version:' | awk '{print \$2}'", returnStdout: true).trim()
+          def CHART_VER_DEV = sh(script: "helm show chart ./cluster-chart/dev/ | grep '^version:' | awk '{print \$2}'", returnStdout: true).trim()
           if (CHART_VER_DEV != CHART_VER) {
               env.CHART_CHANGE = "true"
           } 
@@ -42,7 +42,7 @@ pipeline {
             sh """
             docker build -t ${env.DOCKER_REPO}/$SERVICE:$BUILD_VER-$GIT_COMMIT .
             docker push ${env.DOCKER_REPO}/$SERVICE:$BUILD_VER-$GIT_COMMIT
-            yq e --arg service "$SERVICE" --arg tag "$APP_VER-$GIT_COMMIT" '.[$service].image.tag = $tag' ./cluster-chart/dev/$SERVICE/values.yaml
+            yq e --arg service "$SERVICE" --arg tag "$BUILD_VER-$GIT_COMMIT" '.[$service].image.tag = $tag' ./cluster-chart/dev/$SERVICE/values.yaml
             """
         }
     }
