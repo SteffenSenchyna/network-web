@@ -22,3 +22,14 @@ The following technologies were used in building the application:
 * Run the application using `yarn dev`
 * The application will run on [http://localhost:3000](http://localhost:3000)
 
+## Environmental Variables
+Create a .env file in the root directory of the project and set the following environment variables:
+```
+AWS_ACCESS_KEY=<aws_access_key>
+AWS_SECRET_KEY=<aws_secret_key>
+NETBOXTOKEN=<netbox_token>
+NETBOXURL=<netbox_url>
+USERNAME=<network_device_username>
+PASSWORD=<network_device_password>
+SECRET=<network_device_secret>
+```
