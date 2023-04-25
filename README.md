@@ -14,7 +14,7 @@ The following technologies were used in building the application:
 * MongoDB - a NoSQL document database
 * PySNMP - a Python library for SNMP operations
 * Flask - a Python web framework
-* Netbox - a source of truth SQl database for IPAM and DCIM
+* Netbox - a source of truth SQL database for IPAM and DCIM
 
 ## Getting Started
 * Clone this repository
